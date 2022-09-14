@@ -65,7 +65,7 @@ function main() {
   //            red green blue alpha
   gl.clear(gl.COLOR_BUFFER_BIT);
 
-  gl.drawArrays(gl.POINTS, 0, 3);
+  gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
   // POINTS
   // LINES, LINE_LOOP, LINE_STRIP
   // TRIANGLES, TRIANGLE_STRIP
