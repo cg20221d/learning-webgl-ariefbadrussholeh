@@ -4,22 +4,22 @@ function main() {
 
   var vertices = [
     0.5,
-    0.5,
+    0.0,
     0.0,
     1.0,
     1.0, // A: kanan atas (CYAN)
     0.0,
-    0.0,
+    -0.5,
     1.0,
     0.0,
     1.0, // B: bawah tengah (MAGENTA)
     -0.5,
-    0.5,
+    0.0,
     1.0,
     1.0,
     0.0, // C: kiri atas (KUNING)
     0.0,
-    1.0,
+    0.5,
     1.0,
     1.0,
     1.0, // D: atas tengah (PUTIH)
@@ -34,11 +34,11 @@ function main() {
   var vertexShaderCode = `
   attribute vec2 aPosition;
   attribute vec3 aColor;
+  uniform float uTheta;
   varying vec3 vColor;
   void main() {
-    float x = aPosition.x;
-    float y = aPosition.y;
-    gl_PointSize = 10.0;
+    float x = -sin(uTheta) * aPosition.x + cos(uTheta) * aPosition.y;
+    float y = cos(uTheta) * aPosition.x + sin(uTheta) * aPosition.y;
     gl_Position = vec4(x, y, 0.0, 1.0);    
     vColor = aColor;
   }
@@ -67,6 +67,13 @@ function main() {
   gl.linkProgram(shaderProgram);
   gl.useProgram(shaderProgram);
 
+  // Variabe lokal
+  var theta = 0.0;
+  var freeze = false;
+
+  // Variabel pointer ke GLSL
+  var uTheta = gl.getUniformLocation(shaderProgram, "uTheta");
+
   // Kita mengajari GPU bagaimana caranya mengoleksi
   // nilai posisi dari ARRAY_BUFFER
   // untuk setiap verteks yang sedang diproses
@@ -77,12 +84,20 @@ function main() {
   gl.vertexAttribPointer(aColor, 3, gl.FLOAT, false, 5 * Float32Array.BYTES_PER_ELEMENT, 2 * Float32Array.BYTES_PER_ELEMENT);
   gl.enableVertexAttribArray(aColor);
 
-  gl.clearColor(1.0, 0.65, 0.0, 1.0);
-  //            red green blue alpha
-  gl.clear(gl.COLOR_BUFFER_BIT);
+  function render() {
+    gl.clearColor(1.0, 0.65, 0.0, 1.0);
+    //            red green blue alpha
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    if (!freeze) {
+      theta += 0.1;
+      gl.uniform1f(uTheta, theta);
+    }
+    gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
+    // POINTS
+    // LINES, LINE_LOOP, LINE_STRIP
+    // TRIANGLES, TRIANGLE_STRIP, TRIANGLE_FAN
+    requestAnimationFrame(render);
+  }
 
-  gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
-  // POINTS
-  // LINES, LINE_LOOP, LINE_STRIP
-  // TRIANGLES, TRIANGLE_STRIP, TRIANGLE_FAN
+  requestAnimationFrame(render);
 }
