@@ -35,10 +35,11 @@ function main() {
   attribute vec2 aPosition;
   attribute vec3 aColor;
   uniform float uTheta;
+  uniform vec4 uTranslation;
   varying vec3 vColor;
   void main() {
-    float x = -sin(uTheta) * aPosition.x + cos(uTheta) * aPosition.y;
-    float y = cos(uTheta) * aPosition.x + sin(uTheta) * aPosition.y;
+    float x = (-sin(uTheta) * aPosition.x + cos(uTheta) * aPosition.y) + uTranslation.x;
+    float y = (cos(uTheta) * aPosition.x + sin(uTheta) * aPosition.y) + uTranslation.y;
     gl_Position = vec4(x, y, 0.0, 1.0);    
     vColor = aColor;
   }
@@ -70,6 +71,8 @@ function main() {
   // Variabe lokal
   var theta = 0.0;
   var freeze = false;
+  var Tx = 0.0,
+    Ty = 0.0;
 
   // Variabel pointer ke GLSL
   var uTheta = gl.getUniformLocation(shaderProgram, "uTheta");
@@ -83,6 +86,7 @@ function main() {
   var aColor = gl.getAttribLocation(shaderProgram, "aColor");
   gl.vertexAttribPointer(aColor, 3, gl.FLOAT, false, 5 * Float32Array.BYTES_PER_ELEMENT, 2 * Float32Array.BYTES_PER_ELEMENT);
   gl.enableVertexAttribArray(aColor);
+  var translation = gl.getUniformLocation(shaderProgram, "uTranslation");
 
   // Grafika interaktif
   // Tetikus
@@ -97,8 +101,24 @@ function main() {
   function onKeyUp(event) {
     if (event.keyCode == 32) freeze = !freeze;
   }
+  function moveSquare(event) {
+    if (event.keyCode == 87) {
+      Ty += 0.1;
+      gl.uniform4f(translation, Tx, Ty, 0.0, 1.0);
+    } else if (event.keyCode == 83) {
+      Ty -= 0.1;
+      gl.uniform4f(translation, Tx, Ty, 0.0, 1.0);
+    } else if (event.keyCode == 65) {
+      Tx -= 0.1;
+      gl.uniform4f(translation, Tx, Ty, 0.0, 1.0);
+    } else if (event.keyCode == 68) {
+      Tx += 0.1;
+      gl.uniform4f(translation, Tx, Ty, 0.0, 1.0);
+    }
+  }
   document.addEventListener("keydown", onKeyDown);
-  document.addEventListener("keyup", onKeyUp);
+  // document.addEventListener("keyup", onKeyUp);
+  document.addEventListener("keydown", moveSquare);
 
   function render() {
     gl.clearColor(1.0, 0.65, 0.0, 1.0);
