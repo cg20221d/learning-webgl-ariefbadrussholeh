@@ -85,10 +85,20 @@ function main() {
   gl.enableVertexAttribArray(aColor);
 
   // Grafika interaktif
+  // Tetikus
   function onMouseClick(event) {
     freeze = !freeze;
   }
   document.addEventListener("click", onMouseClick);
+  // Papan ketuk
+  function onKeyDown(event) {
+    if (event.keyCode == 32) freeze = !freeze;
+  }
+  function onKeyUp(event) {
+    if (event.keyCode == 32) freeze = !freeze;
+  }
+  document.addEventListener("keydown", onKeyDown);
+  document.addEventListener("keyup", onKeyUp);
 
   function render() {
     gl.clearColor(1.0, 0.65, 0.0, 1.0);
