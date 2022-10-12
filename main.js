@@ -38,9 +38,18 @@ function main() {
   uniform vec4 uTranslation;
   varying vec3 vColor;
   void main() {
-    float x = (-sin(uTheta) * aPosition.x + cos(uTheta) * aPosition.y) + uTranslation.x;
-    float y = (cos(uTheta) * aPosition.x + sin(uTheta) * aPosition.y) + uTranslation.y;
-    gl_Position = vec4(x, y, 0.0, 1.0);    
+    // float x = (-sin(uTheta) * aPosition.x + cos(uTheta) * aPosition.y) + uTranslation.x;
+    // float y = (cos(uTheta) * aPosition.x + sin(uTheta) * aPosition.y) + uTranslation.y;
+    // gl_Position = vec4(x, y, 0.0, 1.0);  
+
+    vec2 position = aPosition;
+    vec3 d = vec3(0.5, -0.5, 0.0);
+    mat4 translation = mat4(1.0, 0.0, 0.0, 0.0,
+                           0.0, 1.0, 0.0, 0.0, 
+                           0.0, 0.0, 1.0, 0.0, 
+                           d.x, d.y, d.z, 1.0);
+    gl_Position = translation * vec4(position, 0.0, 1.0);
+    
     vColor = aColor;
   }
   `;
@@ -124,10 +133,10 @@ function main() {
     gl.clearColor(1.0, 0.65, 0.0, 1.0);
     //            red green blue alpha
     gl.clear(gl.COLOR_BUFFER_BIT);
-    if (!freeze) {
-      theta += 0.1;
-      gl.uniform1f(uTheta, theta);
-    }
+    // if (!freeze) {
+    //   theta += 0.1;
+    //   gl.uniform1f(uTheta, theta);
+    // }
     gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
     // POINTS
     // LINES, LINE_LOOP, LINE_STRIP
