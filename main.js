@@ -43,12 +43,21 @@ function main() {
     // gl_Position = vec4(x, y, 0.0, 1.0);  
 
     vec2 position = aPosition;
-    // vec3 d = vec3(0.5, -0.5, 0.0);
-    mat4 translation = mat4(1.0, 0.0, 0.0, 0.0,
-                           0.0, 1.0, 0.0, 0.0, 
-                           0.0, 0.0, 1.0, 0.0, 
-                           uTranslation.x, uTranslation.y, uTranslation.z, 1.0);
-    gl_Position = translation * vec4(position, 0.0, 1.0);
+
+    mat4 translation = mat4(
+      1.0, 0.0, 0.0, 0.0,
+      0.0, 1.0, 0.0, 0.0, 
+      0.0, 0.0, 1.0, 0.0, 
+      uTranslation.x, uTranslation.y, uTranslation.z, 1.0
+    );
+    mat4 rotation = mat4(
+      cos(uTheta), sin(uTheta), 0.0, 0.0,
+      -sin(uTheta), cos(uTheta), 0.0, 0.0,
+      0.0, 0.0, 1.0, 0.0,
+      0.0, 0.0, 0.0, 1.0
+    );
+
+    gl_Position = translation * rotation * vec4(position, 0.0, 1.0);
     
     vColor = aColor;
   }
@@ -85,6 +94,7 @@ function main() {
 
   // Variabel pointer ke GLSL
   var uTheta = gl.getUniformLocation(shaderProgram, "uTheta");
+  var translation = gl.getUniformLocation(shaderProgram, "uTranslation");
 
   // Kita mengajari GPU bagaimana caranya mengoleksi
   // nilai posisi dari ARRAY_BUFFER
@@ -95,7 +105,6 @@ function main() {
   var aColor = gl.getAttribLocation(shaderProgram, "aColor");
   gl.vertexAttribPointer(aColor, 3, gl.FLOAT, false, 5 * Float32Array.BYTES_PER_ELEMENT, 2 * Float32Array.BYTES_PER_ELEMENT);
   gl.enableVertexAttribArray(aColor);
-  var translation = gl.getUniformLocation(shaderProgram, "uTranslation");
 
   // Grafika interaktif
   // Tetikus
@@ -111,19 +120,19 @@ function main() {
     if (event.keyCode == 32) freeze = !freeze;
   }
   function moveSquare(event) {
-    if (event.keyCode == 87) {
+    if (event.keyCode == 87 && event.keyCode == 68) {
       Ty += 0.1;
-      gl.uniform4f(translation, Tx, Ty, 0.0, 1.0);
+      Tx += 0.1;
     } else if (event.keyCode == 83) {
       Ty -= 0.1;
-      gl.uniform4f(translation, Tx, Ty, 0.0, 1.0);
     } else if (event.keyCode == 65) {
       Tx -= 0.1;
-      gl.uniform4f(translation, Tx, Ty, 0.0, 1.0);
     } else if (event.keyCode == 68) {
       Tx += 0.1;
-      gl.uniform4f(translation, Tx, Ty, 0.0, 1.0);
+    } else if (event.keyCode == 87) {
+      Ty += 0.1;
     }
+    gl.uniform4f(translation, Tx, Ty, 0.0, 1.0);
   }
   document.addEventListener("keydown", onKeyDown);
   // document.addEventListener("keyup", onKeyUp);
@@ -133,10 +142,10 @@ function main() {
     gl.clearColor(1.0, 0.65, 0.0, 1.0);
     //            red green blue alpha
     gl.clear(gl.COLOR_BUFFER_BIT);
-    // if (!freeze) {
-    //   theta += 0.1;
-    //   gl.uniform1f(uTheta, theta);
-    // }
+    if (!freeze) {
+      theta += 0.1;
+      gl.uniform1f(uTheta, theta);
+    }
     gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
     // POINTS
     // LINES, LINE_LOOP, LINE_STRIP
