@@ -4,46 +4,46 @@ function main() {
 
   // prettier-ignore
   var vertices = [
-        // Face A       // Red      // Surface orientation
-        -1, -1, -1,     1, 0, 0,    0, 0, -1,    // Index:  0    
-         1, -1, -1,     1, 0, 0,    0, 0, -1,    // Index:  1
-         1,  1, -1,     1, 0, 0,    0, 0, -1,    // Index:  2
-        -1,  1, -1,     1, 0, 0,    0, 0, -1,    // Index:  3
-        // Face B       // Yellow
-        -1, -1,  1,     1, 1, 0,    0, 0, 1,     // Index:  4
-         1, -1,  1,     1, 1, 0,    0, 0, 1,     // Index:  5
-         1,  1,  1,     1, 1, 0,    0, 0, 1,     // Index:  6
-        -1,  1,  1,     1, 1, 0,    0, 0, 1,     // Index:  7
-        // Face C       // Green
-        -1, -1, -1,     0, 1, 0,    -1, 0, 0,    // Index:  8
-        -1,  1, -1,     0, 1, 0,    -1, 0, 0,    // Index:  9
-        -1,  1,  1,     0, 1, 0,    -1, 0, 0,    // Index: 10
-        -1, -1,  1,     0, 1, 0,    -1, 0, 0,    // Index: 11
-        // Face D       // Blue
-         1, -1, -1,     0, 0, 1,    1, 0, 0,     // Index: 12
-         1,  1, -1,     0, 0, 1,    1, 0, 0,     // Index: 13
-         1,  1,  1,     0, 0, 1,    1, 0, 0,     // Index: 14
-         1, -1,  1,     0, 0, 1,    1, 0, 0,     // Index: 15
-        // Face E       // Orange
-        -1, -1, -1,     1, 0.5, 0,  0, -1, 0,    // Index: 16
-        -1, -1,  1,     1, 0.5, 0,  0, -1, 0,    // Index: 17
-         1, -1,  1,     1, 0.5, 0,  0, -1, 0,    // Index: 18
-         1, -1, -1,     1, 0.5, 0,  0, -1, 0,    // Index: 19
-        // Face F       // White
-        -1,  1, -1,     1, 1, 1,    0, 1, 0,     // Index: 20
-        -1,  1,  1,     1, 1, 1,    0, 1, 0,     // Index: 21
-         1,  1,  1,     1, 1, 1,    0, 1, 0,     // Index: 22
-         1,  1, -1,     1, 1, 1,    0, 1, 0      // Index: 23
+      // Face A       // Red      // Surface orientation
+      -1, -1, -1,     1, 0, 0,    0, 0, -1,    // Index:  0    
+       1, -1, -1,     1, 0, 0,    0, 0, -1,    // Index:  1
+       1,  1, -1,     1, 0, 0,    0, 0, -1,    // Index:  2
+      -1,  1, -1,     1, 0, 0,    0, 0, -1,    // Index:  3
+      // Face B       // Yellow
+      -1, -1,  1,     1, 1, 0,    0, 0, 1,     // Index:  4
+       1, -1,  1,     1, 1, 0,    0, 0, 1,     // Index:  5
+       1,  1,  1,     1, 1, 0,    0, 0, 1,     // Index:  6
+      -1,  1,  1,     1, 1, 0,    0, 0, 1,     // Index:  7
+      // Face C       // Green
+      -1, -1, -1,     0, 1, 0,    -1, 0, 0,    // Index:  8
+      -1,  1, -1,     0, 1, 0,    -1, 0, 0,    // Index:  9
+      -1,  1,  1,     0, 1, 0,    -1, 0, 0,    // Index: 10
+      -1, -1,  1,     0, 1, 0,    -1, 0, 0,    // Index: 11
+      // Face D       // Blue
+       1, -1, -1,     0, 0, 1,    1, 0, 0,     // Index: 12
+       1,  1, -1,     0, 0, 1,    1, 0, 0,     // Index: 13
+       1,  1,  1,     0, 0, 1,    1, 0, 0,     // Index: 14
+       1, -1,  1,     0, 0, 1,    1, 0, 0,     // Index: 15
+      // Face E       // Orange
+      -1, -1, -1,     1, 0.5, 0,  0, -1, 0,    // Index: 16
+      -1, -1,  1,     1, 0.5, 0,  0, -1, 0,    // Index: 17
+       1, -1,  1,     1, 0.5, 0,  0, -1, 0,    // Index: 18
+       1, -1, -1,     1, 0.5, 0,  0, -1, 0,    // Index: 19
+      // Face F       // White
+      -1,  1, -1,     1, 1, 1,    0, 1, 0,     // Index: 20
+      -1,  1,  1,     1, 1, 1,    0, 1, 0,     // Index: 21
+       1,  1,  1,     1, 1, 1,    0, 1, 0,     // Index: 22
+       1,  1, -1,     1, 1, 1,    0, 1, 0      // Index: 23
   ];
 
   // prettier-ignore
   var indices = [
-    0, 1, 2,     0, 2, 3,     // Face A
-    4, 5, 6,     4, 6, 7,     // Face B
-    8, 9, 10,    8, 10, 11,   // Face C
-    12, 13, 14,  12, 14, 15,  // Face D
-    16, 17, 18,  16, 18, 19,  // Face E
-    20, 21, 22,  20, 22, 23   // Face F     
+      0, 1, 2,     0, 2, 3,     // Face A
+      4, 5, 6,     4, 6, 7,     // Face B
+      8, 9, 10,    8, 10, 11,   // Face C
+      12, 13, 14,  12, 14, 15,  // Face D
+      16, 17, 18,  16, 18, 19,  // Face E
+      20, 21, 22,  20, 22, 23   // Face F     
   ];
 
   var buffer = gl.createBuffer();
@@ -56,47 +56,47 @@ function main() {
 
   // Vertex shader
   var vertexShaderCode = `
-    attribute vec3 aPosition;
-    attribute vec3 aColor;
-    attribute vec3 aNormal;
-    uniform mat4 uModel;
-    uniform mat4 uView;
-    uniform mat4 uProjection;
-    varying vec3 vColor;
-    varying vec3 vNormal;
-    void main() {
-        gl_Position = uProjection * uView * uModel * vec4(aPosition, 1.0);
-        vColor = aColor;
-        vNormal = aNormal;
-    }
-    `;
+  attribute vec3 aPosition;   // Sebelumnya vec2, makanya tidak tergambar kubus :D
+  attribute vec3 aColor;
+  attribute vec3 aNormal;
+  uniform mat4 uModel;
+  uniform mat4 uView;
+  uniform mat4 uProjection;
+  varying vec3 vColor;
+  varying vec3 vNormal;
+  void main() {
+      gl_Position = uProjection * uView * uModel * vec4(aPosition, 1.0);
+      vColor = aColor;
+      vNormal = aNormal;
+  }
+  `;
   var vertexShaderObject = gl.createShader(gl.VERTEX_SHADER);
   gl.shaderSource(vertexShaderObject, vertexShaderCode);
   gl.compileShader(vertexShaderObject); // sampai sini sudah jadi .o
 
   // Fragment shader
   var fragmentShaderCode = `
-    precision mediump float;
-    varying vec3 vColor;
-    uniform vec3 uLightConstant;      // merepresentasikan warna sumber cahaya
-    uniform float uAmbientIntensity;    // merepresentasikan intensitas cahaya sekitar
-    varying vec3 vNormal;
-    uniform vec3 uLightDirection;       // vektor arah datang sumber cahaya
-    uniform mat3 uNormalModel;
-    void main() {
-        vec3 ambient = uLightConstant * uAmbientIntensity;
-        vec3 normalizedLight = normalize(-uLightDirection);
-        vec3 normalizedNormal = normalize(uNormalModel * vNormal);
-        float cosTheta = dot(normalizedNormal, normalizedLight);
-        vec3 diffuse = vec3(0.0, 0.0, 0.0);
-        if (cosTheta > 0.0) {
-            float diffuseIntensity = cosTheta;
-            diffuse = uLightConstant * diffuseIntensity;
-        }
-        vec3 phong = ambient + diffuse;
-        gl_FragColor = vec4(phong * vColor, 1.0);
-    }
-    `;
+  precision mediump float;
+  varying vec3 vColor;
+  uniform vec3 uLightConstant;        // merepresentasikan warna sumber cahaya
+  uniform float uAmbientIntensity;    // merepresentasikan intensitas cahaya sekitar
+  varying vec3 vNormal;
+  uniform vec3 uLightDirection;       // vektor arah datang sumber cahaya
+  uniform mat3 uNormalModel;
+  void main() {
+      vec3 ambient = uLightConstant * uAmbientIntensity;
+      vec3 normalizedLight = normalize(-uLightDirection);
+      vec3 normalizedNormal = normalize(uNormalModel * vNormal);
+      float cosTheta = dot(normalizedNormal, normalizedLight);
+      vec3 diffuse = vec3(0.0, 0.0, 0.0);
+      if (cosTheta > 0.0) {
+          float diffuseIntensity = cosTheta;
+          diffuse = uLightConstant * diffuseIntensity;
+      }
+      vec3 phong = ambient + diffuse;
+      gl_FragColor = vec4(phong * vColor, 1.0);
+  }
+  `;
   var fragmentShaderObject = gl.createShader(gl.FRAGMENT_SHADER);
   gl.shaderSource(fragmentShaderObject, fragmentShaderCode);
   gl.compileShader(fragmentShaderObject); // sampai sini sudah jadi .o
@@ -139,20 +139,20 @@ function main() {
   var aPosition = gl.getAttribLocation(shaderProgram, "aPosition");
   // prettier-ignore
   gl.vertexAttribPointer(aPosition, 3, gl.FLOAT, false, 
-    9 * Float32Array.BYTES_PER_ELEMENT, 
-    0);
+      9 * Float32Array.BYTES_PER_ELEMENT, 
+      0);
   gl.enableVertexAttribArray(aPosition);
   var aColor = gl.getAttribLocation(shaderProgram, "aColor");
-  //   prettier-ignore
+  // prettier-ignore
   gl.vertexAttribPointer(aColor, 3, gl.FLOAT, false, 
-    9 * Float32Array.BYTES_PER_ELEMENT, 
-    3 * Float32Array.BYTES_PER_ELEMENT);
+      9 * Float32Array.BYTES_PER_ELEMENT, 
+      3 * Float32Array.BYTES_PER_ELEMENT);
   gl.enableVertexAttribArray(aColor);
   var aNormal = gl.getAttribLocation(shaderProgram, "aNormal");
-  //   prettier-ignore
+  // prettier-ignore
   gl.vertexAttribPointer(aNormal, 3, gl.FLOAT, false, 
-    9 * Float32Array.BYTES_PER_ELEMENT, 
-    6 * Float32Array.BYTES_PER_ELEMENT);
+      9 * Float32Array.BYTES_PER_ELEMENT, 
+      6 * Float32Array.BYTES_PER_ELEMENT);
   gl.enableVertexAttribArray(aNormal);
 
   // Untuk pencahayaan dan pembayangan
@@ -199,15 +199,15 @@ function main() {
   document.addEventListener("keyup", onKeyup);
 
   function render() {
-    gl.clearColor(0.0, 0.0, 0.0, 1.0); // Oranye
+    gl.enable(gl.DEPTH_TEST);
+    gl.clearColor(0.0, 0.0, 0.0, 1.0); // Hitam
     //            Merah     Hijau   Biru    Transparansi
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     if (!freeze) {
       theta += 0.01;
     }
     horizontalDelta += horizontalSpeed;
     verticalDelta -= verticalSpeed;
-
     var model = glMatrix.mat4.create(); // Membuat matriks identitas
     glMatrix.mat4.translate(model, model, [horizontalDelta, verticalDelta, 0.0]);
     glMatrix.mat4.rotateX(model, model, theta);
@@ -220,7 +220,6 @@ function main() {
     var normalModel = glMatrix.mat3.create();
     glMatrix.mat3.normalFromMat4(normalModel, model);
     gl.uniformMatrix3fv(uNormalModel, false, normalModel);
-
     gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
     requestAnimationFrame(render);
   }
