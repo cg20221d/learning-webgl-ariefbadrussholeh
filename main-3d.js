@@ -62,12 +62,14 @@ function main() {
   uniform mat4 uModel;
   uniform mat4 uView;
   uniform mat4 uProjection;
+  varying vec3 vPosition;
   varying vec3 vColor;
   varying vec3 vNormal;
   void main() {
       gl_Position = uProjection * uView * uModel * vec4(aPosition, 1.0);
       vColor = aColor;
       vNormal = aNormal;
+      vPosition = (uModel * vec4(aPosition, 1.0)).xyz;
   }
   `;
   var vertexShaderObject = gl.createShader(gl.VERTEX_SHADER);
@@ -81,11 +83,14 @@ function main() {
   uniform vec3 uLightConstant;        // merepresentasikan warna sumber cahaya
   uniform float uAmbientIntensity;    // merepresentasikan intensitas cahaya sekitar
   varying vec3 vNormal;
-  uniform vec3 uLightDirection;       // vektor arah datang sumber cahaya
+  varying vec3 vPosition;             // titik fragmen
+  uniform vec3 uLightPosition;        // titik lokasi sumber cahaya
+  uniform vec3 uViewerPosition;       // titik lokasi mata atau kamera pengamat
   uniform mat3 uNormalModel;
   void main() {
       vec3 ambient = uLightConstant * uAmbientIntensity;
-      vec3 normalizedLight = normalize(-uLightDirection);
+      vec3 lightRay = vPosition - uLightPosition;
+      vec3 normalizedLight = normalize(-lightRay);
       vec3 normalizedNormal = normalize(uNormalModel * vNormal);
       float cosTheta = dot(normalizedNormal, normalizedLight);
       vec3 diffuse = vec3(0.0, 0.0, 0.0);
@@ -93,7 +98,16 @@ function main() {
           float diffuseIntensity = cosTheta;
           diffuse = uLightConstant * diffuseIntensity;
       }
-      vec3 phong = ambient + diffuse;
+      vec3 normalizedReflector = normalize(reflect(lightRay, normalizedNormal));
+      vec3 normalizedViewer = normalize(uViewerPosition - vPosition);
+      float cosPhi = dot(normalizedReflector, normalizedViewer);
+      vec3 specular = vec3(0.0, 0.0, 0.0);
+      if (cosPhi > 0.0) {
+          float shininessConstant = 100.0;    // batas minimum spesifikasi spekular untuk materi logam
+          float specularIntensity = pow(cosPhi, shininessConstant);
+          specular = uLightConstant * specularIntensity;
+      }
+      vec3 phong = ambient + diffuse + specular;
       gl_FragColor = vec4(phong * vColor, 1.0);
   }
   `;
@@ -118,15 +132,17 @@ function main() {
   // Variabel pointer ke GLSL
   var uModel = gl.getUniformLocation(shaderProgram, "uModel");
   // View
-  var cameraX = 0.0;
-  var cameraZ = 5.0;
+  // var cameraX = 0.0;
+  // var cameraZ = 5.0;
+  var camera = [0.0, 0.0, 5.0];
   var uView = gl.getUniformLocation(shaderProgram, "uView");
   var view = glMatrix.mat4.create();
+  // prettier-ignore
   glMatrix.mat4.lookAt(
-    view,
-    [cameraX, 0.0, cameraZ], // the location of the eye or the camera
-    [cameraX, 0.0, -10], // the point where the camera look at
-    [0.0, 1.0, 0.0]
+      view,
+      camera,                         // lokasi mata atau kamera pengamat
+      [camera[0], 0.0, -10.0],        // titik ke mana kamera mengamat
+      [0.0, 1.0, 0.0]
   );
   // Projection
   var uProjection = gl.getUniformLocation(shaderProgram, "uProjection");
@@ -160,8 +176,8 @@ function main() {
   var uAmbientIntensity = gl.getUniformLocation(shaderProgram, "uAmbientIntensity");
   gl.uniform3fv(uLightConstant, [1.0, 1.0, 1.0]); // warna sumber cahaya: oranye
   gl.uniform1f(uAmbientIntensity, 0.4); // intensitas cahaya: 40%
-  var uLightDirection = gl.getUniformLocation(shaderProgram, "uLightDirection");
-  gl.uniform3fv(uLightDirection, [2.0, 0.0, 0.0]);
+  var uLightPosition = gl.getUniformLocation(shaderProgram, "uLightPosition");
+  gl.uniform3fv(uLightPosition, [2.0, 0.0, 0.0]);
   var uNormalModel = gl.getUniformLocation(shaderProgram, "uNormalModel");
 
   // Grafika interaktif
@@ -189,6 +205,25 @@ function main() {
       // s
       verticalSpeed = 0.01;
     }
+    // Pergerakan kamera berdasarkan panah pada papan ketuk
+    // Horizontal
+    if (event.keyCode == 37) {
+      // kiri
+      camera[0] -= 0.1;
+    } else if (event.keyCode == 39) {
+      // kanan
+      camera[0] += 0.1;
+    }
+    // Vertikal
+    if (event.keyCode == 38) {
+      // atas
+      camera[1] -= 0.1;
+    } else if (event.keyCode == 40) {
+      // bawah
+      camera[1] += 0.1;
+    }
+    gl.uniform3fv(uViewerPosition, camera);
+    glMatrix.mat4.lookAt(view, camera, [camera[0], camera[1], -10.0], [0.0, 1.0, 0.0]);
   }
   function onKeyup(event) {
     if (event.keyCode == 32) freeze = !freeze;
@@ -216,7 +251,6 @@ function main() {
     gl.uniformMatrix4fv(uModel, false, model);
     gl.uniformMatrix4fv(uView, false, view);
     gl.uniformMatrix4fv(uProjection, false, perspective);
-
     var normalModel = glMatrix.mat3.create();
     glMatrix.mat3.normalFromMat4(normalModel, model);
     gl.uniformMatrix3fv(uNormalModel, false, normalModel);
